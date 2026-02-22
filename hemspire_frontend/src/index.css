@@ -1,0 +1,55 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;700&family=Manrope:wght@400;600;700&display=swap");
+
+:root {
+  --bg: #fff3f8;
+  --bg-soft: #ffe7f2;
+  --surface: #ffffff;
+  --card: #fff8fc;
+  --text: #2d1730;
+  --muted: #7b5f79;
+  --primary: #c73a8b;
+  --primary-soft: #ffd3ea;
+  --border: #f0d5e5;
+  --danger: #b83262;
+  --hero-1: linear-gradient(125deg, #ff9ecf, #ff6db0);
+  --hero-2: linear-gradient(125deg, #ffc2de, #ff8ac4);
+  --hero-3: linear-gradient(125deg, #f8b1ff, #d980ff);
+}
+
+:root[data-theme="dark"] {
+  --bg: #1f1222;
+  --bg-soft: #2a1631;
+  --surface: #341e3d;
+  --card: #3d2448;
+  --text: #ffeef8;
+  --muted: #d9b8cf;
+  --primary: #ff73be;
+  --primary-soft: #522d59;
+  --border: #5f3a66;
+  --danger: #ff8ca3;
+  --hero-1: linear-gradient(125deg, #7d2d66, #b53e86);
+  --hero-2: linear-gradient(125deg, #7f2b7a, #b44aa5);
+  --hero-3: linear-gradient(125deg, #60308d, #8d45bf);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Manrope", "Segoe UI", sans-serif;
+  background: radial-gradient(circle at 0% 0%, var(--bg-soft), var(--bg) 52%);
+  color: var(--text);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img,
+video {
+  max-width: 100%;
+  display: block;
+}

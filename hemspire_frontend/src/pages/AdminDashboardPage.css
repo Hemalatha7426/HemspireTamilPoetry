@@ -1,0 +1,291 @@
+.admin-page {
+  gap: 1.2rem;
+}
+
+.admin-hero {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 1rem;
+  padding: 1.2rem;
+  background: linear-gradient(
+    130deg,
+    color-mix(in srgb, var(--surface) 88%, #fff),
+    color-mix(in srgb, var(--primary-soft) 35%, var(--surface))
+  );
+}
+
+.admin-hero-content h1 {
+  margin: 0.2rem 0 0.35rem;
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(2.1rem, 4vw, 3.2rem);
+}
+
+.admin-hero-content p {
+  margin: 0;
+  color: var(--muted);
+  max-width: 62ch;
+}
+
+.admin-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--primary) 30%, var(--border));
+  background: color-mix(in srgb, var(--primary-soft) 60%, var(--surface));
+  color: color-mix(in srgb, var(--text) 85%, var(--primary));
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+}
+
+.admin-hero-visual {
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface) 90%, var(--primary-soft));
+  padding: 0.6rem;
+  display: grid;
+  gap: 0.55rem;
+  align-content: start;
+}
+
+.admin-hero-illustration {
+  min-height: 180px;
+  border-radius: 10px;
+  padding: 0.65rem;
+  border: 1px solid color-mix(in srgb, var(--border) 92%, #fff);
+  background:
+    radial-gradient(circle at 12% 15%, rgba(255, 186, 220, 0.5), transparent 35%),
+    radial-gradient(circle at 86% 10%, rgba(186, 224, 255, 0.42), transparent 34%),
+    linear-gradient(135deg, #fffefc 0%, #fff7fb 45%, #f8fbff 100%);
+  display: grid;
+  gap: 0.55rem;
+}
+
+.admin-illus-card {
+  border-radius: 10px;
+  padding: 0.55rem 0.6rem;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface) 86%, #fff);
+  display: grid;
+  grid-template-columns: 10px 1fr;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.admin-illus-card strong {
+  display: block;
+  font-size: 0.82rem;
+  line-height: 1.15;
+}
+
+.admin-illus-card p {
+  margin: 0.16rem 0 0;
+  font-size: 0.73rem;
+  color: var(--muted);
+}
+
+.admin-illus-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.75);
+}
+
+.admin-illus-card-a .admin-illus-dot {
+  background: #6d77ff;
+}
+
+.admin-illus-card-b .admin-illus-dot {
+  background: #2ea99c;
+}
+
+.admin-illus-chart {
+  margin-top: auto;
+  display: flex;
+  align-items: flex-end;
+  gap: 0.28rem;
+  height: 44px;
+}
+
+.admin-illus-chart span {
+  flex: 1;
+  min-width: 0;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #f2a8cb, #8c84ff);
+}
+
+.admin-illus-chart span:nth-child(1) {
+  height: 28%;
+}
+
+.admin-illus-chart span:nth-child(2) {
+  height: 52%;
+}
+
+.admin-illus-chart span:nth-child(3) {
+  height: 76%;
+}
+
+.admin-illus-chart span:nth-child(4) {
+  height: 100%;
+}
+
+.admin-hero-visual-caption {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.admin-hero-visual-caption strong {
+  font-size: 0.93rem;
+}
+
+.admin-hero-visual-caption span {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.admin-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.admin-stat-card {
+  background: linear-gradient(
+    160deg,
+    color-mix(in srgb, var(--surface) 92%, #fff),
+    color-mix(in srgb, var(--primary-soft) 28%, var(--surface))
+  );
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1rem;
+  box-shadow: 0 12px 20px rgba(164, 70, 125, 0.1);
+  transition: transform 220ms ease, box-shadow 220ms ease;
+}
+
+.admin-stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 28px rgba(164, 70, 125, 0.18);
+}
+
+.admin-stat-card h3 {
+  margin: 0;
+  font-size: 1.05rem;
+  color: color-mix(in srgb, var(--text) 82%, var(--muted));
+  display: flex;
+  gap: 0.55rem;
+  align-items: center;
+}
+
+.admin-stat-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: inline-grid;
+  place-items: center;
+  color: color-mix(in srgb, var(--primary) 78%, var(--text));
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--primary-soft) 70%, #fff),
+    color-mix(in srgb, var(--surface) 88%, var(--primary-soft))
+  );
+  border: 1px solid color-mix(in srgb, var(--primary) 24%, var(--border));
+  box-shadow: 0 4px 10px color-mix(in srgb, var(--primary) 20%, transparent);
+  flex-shrink: 0;
+}
+
+.admin-stat-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.admin-stat-card p {
+  margin: 0.55rem 0 0;
+  font-size: clamp(1.45rem, 2.2vw, 2rem);
+  font-weight: 800;
+}
+
+.admin-users-panel {
+  padding: 1.2rem;
+}
+
+.admin-panel-header h2 {
+  margin: 0;
+}
+
+.admin-panel-header p {
+  margin: 0.35rem 0 0.9rem;
+  color: var(--muted);
+}
+
+.admin-table th {
+  font-size: 0.97rem;
+}
+
+.admin-table td {
+  vertical-align: middle;
+}
+
+.admin-user-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.admin-user-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #fff;
+  background: linear-gradient(135deg, var(--primary), #ff8abf);
+  box-shadow: 0 8px 12px color-mix(in srgb, var(--primary) 35%, transparent);
+}
+
+.admin-role-pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.28rem 0.62rem;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.25px;
+  text-transform: uppercase;
+}
+
+.admin-role-pill.is-admin {
+  background: color-mix(in srgb, #ffe8ba 62%, var(--surface));
+  color: #8b5b00;
+  border: 1px solid #f0d18a;
+}
+
+.admin-role-pill.is-user {
+  background: color-mix(in srgb, #dff5ff 64%, var(--surface));
+  color: #175f78;
+  border: 1px solid #b8e4f7;
+}
+
+.admin-action-btn {
+  min-width: 104px;
+}
+
+@media (max-width: 980px) {
+  .admin-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .admin-stats-grid {
+    grid-template-columns: 1fr;
+  }
+}

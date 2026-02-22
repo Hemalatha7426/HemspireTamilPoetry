@@ -1,0 +1,216 @@
+.about-wrapper {
+  width: min(1180px, 94vw);
+  margin: 0 auto;
+  padding: 1.6rem 0 3rem;
+  position: relative;
+}
+
+.section-py {
+  padding: 2.8rem 0;
+}
+
+.about-page,
+.creator-section {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 1.4rem;
+  align-items: center;
+}
+
+.creator-section {
+  align-items: stretch;
+  grid-template-columns: 1fr 1fr;
+}
+
+.about-content {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 1.2rem 1.3rem;
+  box-shadow: 0 14px 24px rgba(179, 79, 137, 0.12);
+}
+
+.about-content h2 {
+  margin: 0 0 0.7rem;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 2.15rem;
+  color: var(--primary);
+}
+
+.about-content h3 {
+  margin: 0.8rem 0 0.35rem;
+  color: var(--text);
+}
+
+.about-content p {
+  margin: 0.5rem 0;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.about-content .link {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.about-image img {
+  width: 100%;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  box-shadow: 0 16px 26px rgba(166, 77, 130, 0.22);
+}
+
+.creator-section .about-image {
+  height: clamp(360px, 42vw, 560px);
+}
+
+.creator-section .about-image img {
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.creator-section .about-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.submit {
+  background: linear-gradient(140deg, color-mix(in srgb, var(--primary-soft) 70%, #fff), var(--card));
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: 1.5rem;
+  margin-top: 1rem;
+  margin-bottom: 1.6rem;
+}
+
+.submit h2,
+.faq h2 {
+  margin: 0 0 0.8rem;
+  color: var(--primary);
+  font-family: "Cormorant Garamond", serif;
+  font-size: 2rem;
+}
+
+.submit-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.dos,
+.donts {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 0.9rem;
+}
+
+.dos h4,
+.donts h4 {
+  margin: 0 0 0.45rem;
+}
+
+.dos ul,
+.donts ul {
+  margin: 0;
+  padding-left: 1.15rem;
+  color: var(--muted);
+}
+
+.btn-pill {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.65rem 1rem;
+  border-radius: 999px;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 700;
+}
+
+.faq {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: 1.5rem;
+  margin-top: 1rem;
+}
+
+.faq-container {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.faq details {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.75rem 0.8rem;
+}
+
+.faq summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.faq p {
+  margin: 0.55rem 0 0;
+  color: var(--muted);
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 420ms ease, transform 420ms ease;
+}
+
+.reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.petal {
+  position: fixed;
+  top: -16px;
+  width: 11px;
+  height: 15px;
+  background: linear-gradient(130deg, #ffd0eb, #ff8dc8);
+  border-radius: 10px 10px 10px 0;
+  transform: rotate(35deg);
+  pointer-events: none;
+  z-index: 3;
+  animation-name: petalFall;
+  animation-timing-function: linear;
+}
+
+@keyframes petalFall {
+  0% {
+    transform: translateX(0) translateY(0) rotate(15deg);
+    opacity: 0.95;
+  }
+  100% {
+    transform: translateX(var(--dx)) translateY(112vh) rotate(420deg);
+    opacity: 0.1;
+  }
+}
+
+@media (max-width: 920px) {
+  .about-page,
+  .creator-section,
+  .submit-grid,
+  .faq-container {
+    grid-template-columns: 1fr;
+  }
+
+  .creator-section .about-image {
+    height: auto;
+  }
+
+  .creator-section .about-image img {
+    height: auto;
+    object-fit: contain;
+  }
+}

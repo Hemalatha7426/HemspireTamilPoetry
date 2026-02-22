@@ -1,0 +1,21 @@
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Root runtime uploads
+uploads/
+
+# Frontend
+hemspire_frontend/node_modules/
+hemspire_frontend/build/
+hemspire_frontend/.env
+
+# Backend
+hemspire_backend/target/
+hemspire_backend/.idea/
+hemspire_backend/.classpath
+hemspire_backend/.project
+hemspire_backend/.settings/
+hemspire_backend/.env
+

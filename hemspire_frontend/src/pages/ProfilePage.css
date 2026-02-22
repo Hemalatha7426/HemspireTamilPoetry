@@ -1,0 +1,137 @@
+.profile-page {
+  gap: 1.1rem;
+}
+
+.profile-page .profile-shell {
+  border-radius: 24px;
+  padding: 1.1rem;
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--surface) 92%, #fff),
+    color-mix(in srgb, var(--primary-soft) 20%, var(--surface))
+  );
+}
+
+.profile-banner {
+  border-radius: 18px;
+  padding: 0.85rem;
+  background: linear-gradient(
+    130deg,
+    color-mix(in srgb, var(--primary-soft) 48%, var(--surface)),
+    color-mix(in srgb, var(--surface) 92%, #fff)
+  );
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.65rem;
+}
+
+.profile-banner-item {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.58rem 0.66rem;
+  display: flex;
+  align-items: center;
+  gap: 0.46rem;
+  background: color-mix(in srgb, var(--surface) 88%, #fff);
+}
+
+.profile-banner-item span {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--primary-soft) 55%, var(--surface));
+  color: color-mix(in srgb, var(--primary) 75%, var(--text));
+}
+
+.profile-banner-item span svg,
+.profile-label-icon svg {
+  width: 15px;
+  height: 15px;
+}
+
+.profile-banner-item p {
+  margin: 0;
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.profile-page .profile-visual {
+  border-radius: 20px;
+  padding: 1.1rem;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--surface) 90%, #fff),
+    color-mix(in srgb, var(--primary-soft) 26%, var(--surface))
+  );
+}
+
+.profile-page .profile-avatar-wrap {
+  width: 210px;
+  height: 210px;
+  background: linear-gradient(140deg, #ff90c7, #ffb57f);
+}
+
+.profile-page .profile-headline {
+  border-radius: 18px;
+  padding: 1rem 1.05rem;
+}
+
+.profile-page .profile-role-badge {
+  margin-top: 0.65rem;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.3rem 0.7rem;
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.2px;
+}
+
+.profile-page .profile-role-badge.is-admin {
+  background: color-mix(in srgb, #ffe6b6 65%, var(--surface));
+  border: 1px solid #f2d090;
+  color: #7a5100;
+}
+
+.profile-page .profile-role-badge.is-user {
+  background: color-mix(in srgb, #dff5ff 65%, var(--surface));
+  border: 1px solid #bbe7f8;
+  color: #0f5f80;
+}
+
+.profile-page .profile-grid > div {
+  border-radius: 16px;
+  padding: 0.9rem;
+}
+
+.profile-page .profile-grid h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.38rem;
+  font-size: 0.94rem;
+}
+
+.profile-page .profile-label-icon {
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  display: inline-grid;
+  place-items: center;
+  font-size: 0.86rem;
+  background: color-mix(in srgb, var(--primary-soft) 56%, var(--surface));
+  border: 1px solid var(--border);
+  color: color-mix(in srgb, var(--primary) 72%, var(--text));
+}
+
+.profile-page .inline-actions {
+  margin-top: 0.95rem;
+}
+
+@media (max-width: 980px) {
+  .profile-banner {
+    grid-template-columns: 1fr;
+  }
+}
