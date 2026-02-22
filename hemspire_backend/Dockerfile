@@ -1,4 +1,3 @@
-# Use Java 17
 FROM eclipse-temurin:17-jdk-alpine
 
 WORKDIR /app
