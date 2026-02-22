@@ -1,19 +1,26 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { NAV_LINKS } from "../utils/constants";
 import { useAuth } from "../contexts/AuthContext";
 import { useTheme } from "../contexts/ThemeContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Navbar() {
   const { isAuthenticated, isAdmin, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
+  const location = useLocation();
   const [logoFailed, setLogoFailed] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const handleLogout = () => {
+    setMenuOpen(false);
     logout();
     navigate("/login");
   };
+
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [location.pathname]);
 
   return (
     <header className="top-nav-wrap">
@@ -34,7 +41,18 @@ export default function Navbar() {
           )}
         </NavLink>
 
-        <div className="nav-links">
+        <button
+          type="button"
+          className="nav-toggle btn ghost small"
+          onClick={() => setMenuOpen((prev) => !prev)}
+          aria-expanded={menuOpen}
+          aria-controls="site-nav-links"
+          aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
+        >
+          {menuOpen ? "Close" : "Menu"}
+        </button>
+
+        <div id="site-nav-links" className={`nav-links ${menuOpen ? "open" : ""}`}>
           {NAV_LINKS.map((item) => (
             <NavLink key={item.path} to={item.path} className="nav-link">
               {item.label}
