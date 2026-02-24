@@ -1,8 +1,12 @@
 package com.hema.hemspire.service;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.hema.hemspire.exception.BadRequestException;
 import com.hema.hemspire.exception.ResourceNotFoundException;
 import jakarta.annotation.PostConstruct;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -16,21 +20,36 @@ import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
 @Service
 public class FileStorageService {
 
+    private static final Logger log = LoggerFactory.getLogger(FileStorageService.class);
+
     @Value("${file.upload-dir}")
     private String uploadDir;
 
+    @Value("${cloudinary.cloud-name:}")
+    private String cloudName;
+
+    @Value("${cloudinary.api-key:}")
+    private String apiKey;
+
+    @Value("${cloudinary.api-secret:}")
+    private String apiSecret;
+
     private Path rootPath;
+    private Cloudinary cloudinary;
+    private boolean cloudinaryEnabled;
 
     @PostConstruct
     public void init() throws IOException {
         rootPath = Paths.get(uploadDir).toAbsolutePath().normalize();
         Files.createDirectories(rootPath);
+        initializeCloudinary();
     }
 
     public String saveFile(MultipartFile file, String folder, Set<String> allowedExtensions) throws IOException {
@@ -48,26 +67,26 @@ public class FileStorageService {
             throw new BadRequestException("Unsupported file type");
         }
 
-        Path folderPath = rootPath.resolve(folder).normalize();
-        if (!folderPath.startsWith(rootPath)) {
-            throw new BadRequestException("Invalid upload path");
-        }
-        Files.createDirectories(folderPath);
-
         String safeBaseName = sanitizeFileName(removeExtension(originalFilename));
-        String storedName = UUID.randomUUID() + "_" + safeBaseName + "." + extension;
-        Path targetPath = folderPath.resolve(storedName).normalize();
+        String uniqueName = UUID.randomUUID() + "_" + safeBaseName;
 
-        if (!targetPath.startsWith(folderPath)) {
-            throw new BadRequestException("Invalid target file path");
+        if (cloudinaryEnabled) {
+            try {
+                return saveToCloudinary(file, folder, uniqueName);
+            } catch (Exception ex) {
+                log.warn("Cloudinary upload failed. Falling back to local storage. reason={}", ex.getMessage());
+            }
         }
 
-        Files.copy(file.getInputStream(), targetPath, StandardCopyOption.REPLACE_EXISTING);
-        return folder + "/" + storedName;
+        return saveLocally(file, folder, uniqueName, extension);
     }
 
     public Resource loadFileAsResource(String relativePath) {
         try {
+            if (isRemoteUrl(relativePath)) {
+                return new UrlResource(relativePath);
+            }
+
             for (Path rootCandidate : getLoadRootCandidates()) {
                 Path filePath = rootCandidate.resolve(relativePath).normalize();
                 if (!filePath.startsWith(rootCandidate)) {
@@ -96,7 +115,7 @@ public class FileStorageService {
 
         String normalizedInput = relativePath.trim();
         // Remote providers (e.g. Cloudinary URLs) are not local filesystem paths.
-        if (normalizedInput.startsWith("http://") || normalizedInput.startsWith("https://")) {
+        if (isRemoteUrl(normalizedInput)) {
             return;
         }
 
@@ -106,6 +125,62 @@ public class FileStorageService {
                 Files.deleteIfExists(filePath);
             }
         } catch (IOException | InvalidPathException ignored) {
+        }
+    }
+
+    private String saveLocally(MultipartFile file, String folder, String uniqueName, String extension) throws IOException {
+        Path folderPath = rootPath.resolve(folder).normalize();
+        if (!folderPath.startsWith(rootPath)) {
+            throw new BadRequestException("Invalid upload path");
+        }
+        Files.createDirectories(folderPath);
+
+        String storedName = uniqueName + "." + extension;
+        Path targetPath = folderPath.resolve(storedName).normalize();
+
+        if (!targetPath.startsWith(folderPath)) {
+            throw new BadRequestException("Invalid target file path");
+        }
+
+        Files.copy(file.getInputStream(), targetPath, StandardCopyOption.REPLACE_EXISTING);
+        return folder + "/" + storedName;
+    }
+
+    private String saveToCloudinary(MultipartFile file, String folder, String uniqueName) throws IOException {
+        @SuppressWarnings("unchecked")
+        Map<String, Object> result = cloudinary.uploader().upload(
+                file.getBytes(),
+                ObjectUtils.asMap(
+                        "resource_type", "auto",
+                        "folder", folder,
+                        "public_id", uniqueName
+                )
+        );
+
+        Object secureUrl = result.get("secure_url");
+        if (secureUrl == null || !StringUtils.hasText(secureUrl.toString())) {
+            throw new IOException("Cloudinary upload succeeded but did not return a URL");
+        }
+        return secureUrl.toString();
+    }
+
+    private void initializeCloudinary() {
+        if (!StringUtils.hasText(cloudName) || !StringUtils.hasText(apiKey) || !StringUtils.hasText(apiSecret)) {
+            cloudinaryEnabled = false;
+            return;
+        }
+
+        try {
+            cloudinary = new Cloudinary(ObjectUtils.asMap(
+                    "cloud_name", cloudName,
+                    "api_key", apiKey,
+                    "api_secret", apiSecret,
+                    "secure", true
+            ));
+            cloudinaryEnabled = true;
+        } catch (Exception ex) {
+            cloudinaryEnabled = false;
+            log.warn("Cloudinary initialization failed. Local file storage will be used. reason={}", ex.getMessage());
         }
     }
 
@@ -125,6 +200,10 @@ public class FileStorageService {
     private String sanitizeFileName(String value) {
         String sanitized = value.replaceAll("[^a-zA-Z0-9-_]", "_");
         return sanitized.length() > 80 ? sanitized.substring(0, 80) : sanitized;
+    }
+
+    private boolean isRemoteUrl(String value) {
+        return StringUtils.hasText(value) && (value.startsWith("http://") || value.startsWith("https://"));
     }
 
     private List<Path> getLoadRootCandidates() {
