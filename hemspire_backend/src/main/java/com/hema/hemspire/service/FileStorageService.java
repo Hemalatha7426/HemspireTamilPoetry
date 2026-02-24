@@ -41,6 +41,9 @@ public class FileStorageService {
     @Value("${cloudinary.api-secret:}")
     private String apiSecret;
 
+    @Value("${cloudinary.enforce:false}")
+    private boolean cloudinaryEnforce;
+
     private Path rootPath;
     private Cloudinary cloudinary;
     private boolean cloudinaryEnabled;
@@ -74,8 +77,15 @@ public class FileStorageService {
             try {
                 return saveToCloudinary(file, folder, uniqueName);
             } catch (Exception ex) {
+                if (cloudinaryEnforce) {
+                    throw new IOException("Cloudinary upload failed while enforcement is enabled", ex);
+                }
                 log.warn("Cloudinary upload failed. Falling back to local storage. reason={}", ex.getMessage());
             }
+        }
+
+        if (cloudinaryEnforce) {
+            throw new IOException("Cloudinary enforcement is enabled but Cloudinary is not available");
         }
 
         return saveLocally(file, folder, uniqueName, extension);
@@ -166,6 +176,9 @@ public class FileStorageService {
 
     private void initializeCloudinary() {
         if (!StringUtils.hasText(cloudName) || !StringUtils.hasText(apiKey) || !StringUtils.hasText(apiSecret)) {
+            if (cloudinaryEnforce) {
+                throw new IllegalStateException("Cloudinary enforcement is enabled but credentials are missing");
+            }
             cloudinaryEnabled = false;
             return;
         }
@@ -179,6 +192,9 @@ public class FileStorageService {
             ));
             cloudinaryEnabled = true;
         } catch (Exception ex) {
+            if (cloudinaryEnforce) {
+                throw new IllegalStateException("Cloudinary enforcement is enabled but initialization failed", ex);
+            }
             cloudinaryEnabled = false;
             log.warn("Cloudinary initialization failed. Local file storage will be used. reason={}", ex.getMessage());
         }
